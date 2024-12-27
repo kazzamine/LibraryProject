@@ -1,39 +1,34 @@
 package org.example.library.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Livre
-{
+public class Livre {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String titre;
+
+    @Column(nullable = false)
     private String auteur;
-    private String description;
-    private int pages;
-    private int dispo;
 
-    public Livre() {
+    @Column(nullable = false)
+    private Boolean dispo;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
     }
 
-    public Livre(String titre, String auteur, String description, int pages, int dispo) {
-        this.titre = titre;
-        this.auteur = auteur;
-        this.description = description;
-        this.pages = pages;
-        this.dispo = dispo;
-    }
-
-    public int getDispo() {
-        return dispo;
-    }
-
-    public void setDispo(int dispo) {
-        this.dispo = dispo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitre() {
@@ -52,27 +47,19 @@ public class Livre
         this.auteur = auteur;
     }
 
-    public String getDescription() {
-        return description;
+    public Boolean getDispo() {
+        return dispo;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDispo(Boolean dispo) {
+        this.dispo = dispo;
     }
 
-    public int getPages() {
-        return pages;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setPages(int pages) {
-        this.pages = pages;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

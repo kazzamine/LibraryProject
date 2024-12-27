@@ -22,7 +22,7 @@ public class UserServlet extends HttpServlet {
         try{
             em.getTransaction().begin();
             User user=new User();
-            user.setUsername("fouad");
+            user.setNom("fouad");
             em.persist(user);
             em.getTransaction().commit();
 
