@@ -10,19 +10,25 @@ public class Emprunt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private LocalDate dateEmprunt;
-
-    @Column
-    private LocalDate dateRetour;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "livre_id", nullable = false)
     private Livre livre;
 
-    @ManyToOne
-    @JoinColumn(name = "utilisateur_id", nullable = false)
-    private User utilisateur;
+    @Column(nullable = false)
+    private LocalDate startDate;
+
+    @Column(nullable = false)
+    private LocalDate dueDate;
+
+    @Column(nullable = false)
+    private LocalDate dateEmprunt; // This field needs to be added
+
+    @Column(nullable = false)
+    private String status; // "BORROWED" or "RETURNED"
 
     // Getters and Setters
     public Long getId() {
@@ -33,20 +39,12 @@ public class Emprunt {
         this.id = id;
     }
 
-    public LocalDate getDateEmprunt() {
-        return dateEmprunt;
+    public User getUser() {
+        return user;
     }
 
-    public void setDateEmprunt(LocalDate dateEmprunt) {
-        this.dateEmprunt = dateEmprunt;
-    }
-
-    public LocalDate getDateRetour() {
-        return dateRetour;
-    }
-
-    public void setDateRetour(LocalDate dateRetour) {
-        this.dateRetour = dateRetour;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Livre getLivre() {
@@ -57,11 +55,35 @@ public class Emprunt {
         this.livre = livre;
     }
 
-    public User getUtilisateur() {
-        return utilisateur;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setUtilisateur(User utilisateur) {
-        this.utilisateur = utilisateur;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public LocalDate getDateEmprunt() {
+        return dateEmprunt;
+    }
+
+    public void setDateEmprunt(LocalDate dateEmprunt) {
+        this.dateEmprunt = dateEmprunt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

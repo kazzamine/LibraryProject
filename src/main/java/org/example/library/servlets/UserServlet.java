@@ -1,43 +1,48 @@
 package org.example.library.servlets;
 
+import org.example.library.dao.UserDAO;
 import org.example.library.entities.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet("/user")
+@WebServlet("/users")
 public class UserServlet extends HttpServlet {
-    private static final EntityManagerFactory entityManager= Persistence.createEntityManagerFactory("default");
+    private UserDAO userDAO;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EntityManager em=entityManager.createEntityManager();
-        try{
-            em.getTransaction().begin();
-            User user=new User();
-            user.setNom("fouad");
-            em.persist(user);
-            em.getTransaction().commit();
-
-            req.setAttribute("user", user);
-
-            req.getRequestDispatcher("jsp/user.jsp").forward(req, resp);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }finally {
-            em.close();
-        }
+    public void init() throws ServletException {
+        userDAO = new UserDAO();
     }
 
     @Override
-    public void destroy() {
-        entityManager.close();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!isAdmin(request)) {
+            response.sendRedirect("accessDenied.jsp");
+            return;
+        }
+
+        String action = request.getParameter("action");
+        if (action == null || action.equals("list")) {
+            listUsers(request, response);
+        }
+    }
+
+    private void listUsers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<User> users = userDAO.findAll();
+        request.setAttribute("users", users);
+        request.getRequestDispatcher("/jsp/userManagement/users.jsp").forward(request, response);
+    }
+
+    private boolean isAdmin(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User loggedUser = (User) session.getAttribute("loggedUser");
+        return loggedUser != null && loggedUser.isAdmin();
     }
 }
