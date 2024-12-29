@@ -14,6 +14,27 @@ public class CategoryDAO {
         this.emf = Persistence.createEntityManagerFactory("default");
     }
 
+    // Fetch all categories
+    public List<Category> findAll() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT c FROM Category c", Category.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    // Find a category by ID
+    public Category findById(Long id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.find(Category.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
+    // Create a new category
     public void create(Category category) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -25,24 +46,7 @@ public class CategoryDAO {
         }
     }
 
-    public Category findById(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.find(Category.class, id);
-        } finally {
-            em.close();
-        }
-    }
-
-    public List<Category> findAll() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.createQuery("SELECT c FROM Category c", Category.class).getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
+    // Update an existing category
     public void update(Category category) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -54,6 +58,7 @@ public class CategoryDAO {
         }
     }
 
+    // Delete a category by ID
     public void delete(Long id) {
         EntityManager em = emf.createEntityManager();
         try {

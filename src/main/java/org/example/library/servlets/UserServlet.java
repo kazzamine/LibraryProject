@@ -1,4 +1,4 @@
-package org.example.library.servlet;
+package org.example.library.servlets;
 
 import org.example.library.entities.User;
 

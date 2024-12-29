@@ -26,21 +26,21 @@ public class LivreDAO {
         }
     }
 
-    // Find a Livre by ID
-    public Livre findById(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.find(Livre.class, id);
-        } finally {
-            em.close();
-        }
-    }
-
     // Find all Livres
     public List<Livre> findAll() {
         EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("SELECT l FROM Livre l", Livre.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    // Find a Livre by ID
+    public Livre findById(Long id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.find(Livre.class, id);
         } finally {
             em.close();
         }
