@@ -18,10 +18,21 @@ public class UserDAO {
     public User findByEmail(String email) {
         EntityManager em = emf.createEntityManager();
         try {
-            List<User> users = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+            return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
                     .setParameter("email", email)
-                    .getResultList();
-            return users.isEmpty() ? null : users.get(0);
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null; // Return null if no user is found
+        } finally {
+            em.close();
+        }
+    }
+
+    // Retrieve all users
+    public List<User> findAll() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT u FROM User u", User.class).getResultList();
         } finally {
             em.close();
         }
@@ -45,6 +56,21 @@ public class UserDAO {
         try {
             em.getTransaction().begin();
             em.merge(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+    // Delete a user by ID
+    public void delete(Long id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            User user = em.find(User.class, id);
+            if (user != null) {
+                em.remove(user);
+            }
             em.getTransaction().commit();
         } finally {
             em.close();

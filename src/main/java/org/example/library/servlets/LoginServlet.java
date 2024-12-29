@@ -19,35 +19,31 @@ public class LoginServlet extends HttpServlet {
     public void init() throws ServletException {
         userDAO = new UserDAO();
     }
-
+    // Handle GET requests to display the registration form
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/jsp/userManagement/login.jsp").forward(request, response);
     }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
-        System.out.println("Login attempt with email: " + email);
-
-        // Find user
+        // Find user by email
         User user = userDAO.findByEmail(email);
-        if (user == null) {
-            System.out.println("No user found for email: " + email);
-            request.setAttribute("error", "Invalid email.");
+
+        if (user == null || !password.equals(user.getPassword())) {
+            request.setAttribute("error", "Invalid email or password.");
             request.getRequestDispatcher("/jsp/userManagement/login.jsp").forward(request, response);
             return;
         }
 
-        System.out.println("User logged in: " + user.getNom() + ", Role: " + user.getRole());
-
-        // Set user in session
+        // Store user in session
         HttpSession session = request.getSession();
         session.setAttribute("loggedUser", user);
 
-        // Redirect based on role
-        if ("ADMIN".equalsIgnoreCase(user.getRole())) {
+        // Redirect based on role or isAdmin
+        if (user.isAdmin() || "ADMIN".equalsIgnoreCase(user.getRole())) {
             response.sendRedirect("admin/dashboard");
         } else {
             response.sendRedirect("livres");
