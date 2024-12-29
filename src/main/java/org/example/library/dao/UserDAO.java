@@ -14,54 +14,37 @@ public class UserDAO {
         this.emf = Persistence.createEntityManagerFactory("default");
     }
 
-    public void create(User utilisateur) {
+    // Find a user by email
+    public User findByEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            List<User> users = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+                    .setParameter("email", email)
+                    .getResultList();
+            return users.isEmpty() ? null : users.get(0);
+        } finally {
+            em.close();
+        }
+    }
+
+    // Create a new user
+    public void create(User user) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(utilisateur);
+            em.persist(user);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
 
-    public User findById(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.find(User.class, id);
-        } finally {
-            em.close();
-        }
-    }
-
-    public List<User> findAll() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.createQuery("SELECT u FROM User u", User.class).getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    public void update(User utilisateur) {
+    // Update an existing user
+    public void update(User user) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(utilisateur);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-    }
-
-    public void delete(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            User utilisateur = em.find(User.class, id);
-            if (utilisateur != null) {
-                em.remove(utilisateur);
-            }
+            em.merge(user);
             em.getTransaction().commit();
         } finally {
             em.close();

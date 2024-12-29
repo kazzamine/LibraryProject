@@ -47,6 +47,15 @@
                        onclick="return confirm('Are you sure you want to delete this book?');">
                         Delete
                     </a>
+
+                    <!-- Borrow Button -->
+                    <c:if test="${livre.dispo}">
+                        <form action="emprunts" method="post" class="d-inline">
+                            <input type="hidden" name="action" value="borrow">
+                            <input type="hidden" name="livreId" value="${livre.id}">
+                            <button type="submit" class="btn btn-sm btn-primary">Borrow</button>
+                        </form>
+                    </c:if>
                 </td>
             </tr>
         </c:forEach>

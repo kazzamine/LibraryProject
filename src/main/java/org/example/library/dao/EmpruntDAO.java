@@ -14,6 +14,7 @@ public class EmpruntDAO {
         this.emf = Persistence.createEntityManagerFactory("default");
     }
 
+    // Create a new borrowing transaction
     public void create(Emprunt emprunt) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -25,6 +26,7 @@ public class EmpruntDAO {
         }
     }
 
+    // Find a borrowing transaction by ID
     public Emprunt findById(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -34,6 +36,19 @@ public class EmpruntDAO {
         }
     }
 
+    // Find borrowing transactions by user ID
+    public List<Emprunt> findByUserId(Long userId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT e FROM Emprunt e WHERE e.user.id = :userId", Emprunt.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    // Find all borrowing transactions
     public List<Emprunt> findAll() {
         EntityManager em = emf.createEntityManager();
         try {
@@ -43,25 +58,12 @@ public class EmpruntDAO {
         }
     }
 
+    // Update a borrowing transaction
     public void update(Emprunt emprunt) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(emprunt);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-    }
-
-    public void delete(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            Emprunt emprunt = em.find(Emprunt.class, id);
-            if (emprunt != null) {
-                em.remove(emprunt);
-            }
             em.getTransaction().commit();
         } finally {
             em.close();
