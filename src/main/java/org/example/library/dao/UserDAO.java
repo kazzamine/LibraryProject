@@ -14,21 +14,19 @@ public class UserDAO {
         this.emf = Persistence.createEntityManagerFactory("default");
     }
 
-    // Find a user by email
-    public User findByEmail(String email) {
+    // Create a new user
+    public void create(User user) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
-                    .setParameter("email", email)
-                    .getSingleResult();
-        } catch (Exception e) {
-            return null; // Return null if no user is found
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
 
-    // Retrieve all users
+    // Find all users
     public List<User> findAll() {
         EntityManager em = emf.createEntityManager();
         try {
@@ -38,13 +36,11 @@ public class UserDAO {
         }
     }
 
-    // Create a new user
-    public void create(User user) {
+    // Find a user by ID
+    public User findById(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
-            em.getTransaction().begin();
-            em.persist(user);
-            em.getTransaction().commit();
+            return em.find(User.class, id);
         } finally {
             em.close();
         }
@@ -72,6 +68,19 @@ public class UserDAO {
                 em.remove(user);
             }
             em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+    // Find a user by email
+    public User findByEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            List<User> users = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+                    .setParameter("email", email)
+                    .getResultList();
+            return users.isEmpty() ? null : users.get(0);
         } finally {
             em.close();
         }
