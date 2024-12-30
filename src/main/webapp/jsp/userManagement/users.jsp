@@ -11,6 +11,9 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center">Manage Users</h1>
+    <div class="text-end mb-3">
+        <a href="users?action=addForm" class="btn btn-primary">Add New User</a>
+    </div>
 
     <table class="table table-striped">
         <thead>
@@ -28,9 +31,9 @@
                 <td>${user.id}</td>
                 <td>${user.nom}</td>
                 <td>${user.email}</td>
-                <td>${user.isAdmin ? "Admin" : "User"}</td>
+                <td>${user.role}</td>
                 <td>
-                    <a href="users?action=edit&id=${user.id}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="users?action=editForm&id=${user.id}" class="btn btn-sm btn-warning">Edit</a>
                     <a href="users?action=delete&id=${user.id}" class="btn btn-sm btn-danger"
                        onclick="return confirm('Are you sure?');">Delete</a>
                 </td>
