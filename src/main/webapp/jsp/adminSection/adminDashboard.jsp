@@ -6,9 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    h1 {
+      color: #343a40;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+    .list-group-item {
+      font-size: 1.2rem;
+      transition: transform 0.2s, background-color 0.3s;
+    }
+    .list-group-item:hover {
+      transform: scale(1.02);
+      background-color: #e9ecef;
+    }
+    .container {
+      max-width: 600px;
+    }
+  </style>
 </head>
 <body>
-<div class="container mt-5">
+<div class="container mt-5 shadow-lg p-4 bg-white rounded">
   <h1 class="text-center">Admin Dashboard</h1>
 
   <div class="list-group">
