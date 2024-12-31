@@ -54,6 +54,8 @@
 </head>
 <body>
 <div class="container">
+    <%@ include file="../sidebar.jsp" %>
+        <div class="flex-grow-1 ms-5 ps-4" style="margin-left: 250px;">
     <h1><i class="fas fa-users"></i> Manage Users</h1>
     <div class="text-end mb-3">
         <a href="users?action=addForm" class="btn btn-primary">
@@ -94,7 +96,7 @@
         </table>
     </div>
 </div>
-
+</div>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>

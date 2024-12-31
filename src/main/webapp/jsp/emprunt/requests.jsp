@@ -42,6 +42,8 @@
     </style>
 </head>
 <body>
+<%@ include file="../sidebar.jsp" %>
+
 <div class="container mt-5">
     <h1 class="text-center"><i class="fas fa-envelope"></i> Borrow Requests</h1>
 

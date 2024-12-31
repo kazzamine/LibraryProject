@@ -45,6 +45,8 @@
     </style>
 </head>
 <body>
+<%@ include file="../sidebar.jsp" %>
+
 <div class="container mt-5">
     <h1 class="text-center"><i class="fas fa-book"></i> Borrow Transactions</h1>
 

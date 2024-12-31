@@ -56,6 +56,8 @@
     </style>
 </head>
 <body>
+<%@ include file="./sidebar.jsp" %>
+
 <div class="container">
     <h1><i class="fas fa-book"></i> Books List</h1>
 
