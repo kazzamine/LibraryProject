@@ -45,6 +45,8 @@
   </style>
 </head>
 <body>
+<%@ include file="../sidebar.jsp" %>
+
 <div class="container">
   <h1 class="text-center"><i class="fas fa-user-edit"></i> Edit User</h1>
   <form action="users?action=update&id=${user.id}" method="post">

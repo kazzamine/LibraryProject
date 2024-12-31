@@ -46,6 +46,7 @@
     </style>
 </head>
 <body>
+<%@ include file="./sidebar.jsp" %>
 <div class="container">
     <h1><i class="fas fa-edit"></i> Edit Book</h1>
 

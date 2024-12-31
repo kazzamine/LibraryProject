@@ -45,6 +45,8 @@
   </style>
 </head>
 <body>
+<%@ include file="../sidebar.jsp" %>
+
 <div class="container">
   <h1 class="text-center"><i class="fas fa-user-plus"></i> Add User</h1>
   <form action="users?action=add" method="post">

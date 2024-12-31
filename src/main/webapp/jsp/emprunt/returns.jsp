@@ -59,6 +59,8 @@
     </style>
 </head>
 <body>
+<%@ include file="../sidebar.jsp" %>
+
 <div class="container">
     <h1><i class="fas fa-undo-alt"></i> Return Borrowed Books</h1>
 
