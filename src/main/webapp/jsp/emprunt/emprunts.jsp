@@ -12,6 +12,14 @@
 <div class="container mt-5">
     <h1 class="text-center">Borrow Transactions</h1>
 
+    <!-- Navigation Buttons -->
+    <div class="mb-3">
+        <a href="emprunts?action=requests" class="btn btn-primary">View Borrow Requests</a>
+        <a href="emprunts?action=history" class="btn btn-secondary">View Borrow History</a>
+        <a href="emprunts?action=returns" class="btn btn-success">View Return Requests</a>
+    </div>
+
+    <!-- Borrow Transactions Table -->
     <table class="table table-striped table-bordered">
         <thead class="table-dark">
         <tr>
@@ -34,11 +42,26 @@
                 <td>${emprunt.dueDate}</td>
                 <td>${emprunt.status}</td>
                 <td>
+                    <!-- Button to Approve Borrow Requests -->
+                    <c:if test="${emprunt.status == 'PENDING'}">
+                        <form action="emprunts" method="post" class="d-inline">
+                            <input type="hidden" name="action" value="approve">
+                            <input type="hidden" name="empruntId" value="${emprunt.id}">
+                            <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                        </form>
+                        <form action="emprunts" method="post" class="d-inline">
+                            <input type="hidden" name="action" value="reject">
+                            <input type="hidden" name="empruntId" value="${emprunt.id}">
+                            <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                        </form>
+                    </c:if>
+
+                    <!-- Button to Return Books -->
                     <c:if test="${emprunt.status == 'BORROWED'}">
                         <form action="emprunts" method="post" class="d-inline">
                             <input type="hidden" name="action" value="return">
                             <input type="hidden" name="empruntId" value="${emprunt.id}">
-                            <button type="submit" class="btn btn-sm btn-success">Return</button>
+                            <button type="submit" class="btn btn-sm btn-warning">Return</button>
                         </form>
                     </c:if>
                 </td>
